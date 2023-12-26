@@ -57,7 +57,6 @@ public class TelevisionsSearchTest extends BaseTest {
         productsSteps.verifyAllProductsPriceResultLessThen(maxPrice);
         productsSteps.verifyAllProductsDescriptionContain(resolution);
         productsSteps.verifyAllProductsDescriptionStartsWithInDiaposon(minDiagonal, maxDiagonal);
-
     }
 }
 
