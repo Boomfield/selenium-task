@@ -1,0 +1,25 @@
+<televisionsSearchData>
+    <assertParameters>
+        <manufacturer>Samsung</manufacturer>
+        <maxPrice>1500</maxPrice>
+        <minDiagonal>40</minDiagonal>
+        <maxDiagonal>50</maxDiagonal>
+        <resolution>1920x1080</resolution>
+    </assertParameters>
+    <filter>
+        <label>Samsung</label>
+        <category>Производитель</category>
+    </filter>
+    <filter>
+        <label>1920x1080 (Full HD)</label>
+        <category>Разрешение</category>
+    </filter>
+    <filter>
+        <label>40"</label>
+        <category>Диагональ</category>
+    </filter>
+    <filter>
+        <label>50"</label>
+        <category>Диагональ</category>
+    </filter>
+</televisionsSearchData>
