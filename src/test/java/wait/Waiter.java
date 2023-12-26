@@ -20,8 +20,7 @@ public class Waiter {
 
     public void waitAttributeToBe(By element, String attribute, String value, int seconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
-        wait.until(ExpectedConditions.attributeToBe(element,
-                attribute, value));
+        wait.until(ExpectedConditions.attributeToBe(element, attribute, value));
     }
 
     public WebElement waitElementIsClickable(By element, int seconds) {

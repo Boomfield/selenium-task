@@ -24,7 +24,6 @@ public class ProductsSteps {
         Assert.assertTrue(list.stream().allMatch(element -> element <= price), "This product has more then " + price);
     }
 
-
     public void verifyAllProductsDescriptionStartsWithInDiaposon(int startRange, int endRange) {
         List<Integer> list = productsPage.extractPropertyFromDescription(ProductInfoHelper.extractTvDiagonal);
         Assert.assertTrue(list.stream().allMatch(value -> value >= startRange && value <= endRange), "This product not between " + startRange + " and " + endRange);

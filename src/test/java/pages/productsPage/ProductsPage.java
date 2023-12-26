@@ -5,12 +5,11 @@ import org.openqa.selenium.WebDriver;
 import pages.BasePage;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ProductsPage extends BasePage {
-    private static String filterLinkLocator = "//div[@class='schema-filter__label' and .//span[text()='%s']]/following-sibling::div//span[text()='%s']";
+    private static String filterLinkLocator = "//div[@class='schema-filter__label' and .//span[text()='%s']]/following-sibling::div//span[contains(text(),'%s')]";
     private static By inputBeforePriceLinkLocator = By.xpath("//input[@placeholder='до']");
     private static By priceValueLinkLocator = By.xpath("//a[contains(@class,'price-value')]");
     private static By productTitleLinkLocator = By.className("schema-product__title");
@@ -25,7 +24,7 @@ public class ProductsPage extends BasePage {
         return By.xpath(String.format(filterLinkLocator, nameFilterBlock, nameFilter));
     }
 
-    private void clickFilter(String filterBlock, String filter) {
+    public void clickFilter(String filterBlock, String filter) {
         By element = getFilterByTextLocator(filterBlock, filter);
         scrollIntoVieW(element);
         clickElement(element);
@@ -64,16 +63,12 @@ public class ProductsPage extends BasePage {
                 .collect(Collectors.toList());
     }
 
-    public void clickFilters(Map<String, String> filterMap) {
-        for (Map.Entry<String, String> entry : filterMap.entrySet()) {
-            clickFilter(entry.getValue(), entry.getKey());
-        }
-    }
-
     public void waitForResultsLoaded() {
         try {
             waiter.waitAttributeToBe(productsBlockLinkLocator, "class",
                     "schema-products schema-products_processing", 1);
+            waiter.waitAttributeToBe(productsBlockLinkLocator, "class",
+                    "schema-products", 1);
         } catch (Exception ignored) {
             System.out.println(ignored.getMessage());
         }

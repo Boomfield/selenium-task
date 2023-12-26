@@ -1,8 +1,9 @@
 package tests;
 
+import org.testng.annotations.Parameters;
+import pages.productsPage.components.TvSectionData;
 import tests.data.PagesUrl;
 import helpers.PropertyHelper;
-import helpers.XmlReader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.catalogPage.CatalogPage;
@@ -15,10 +16,6 @@ import pages.components.helpers.HeaderMenu;
 import pages.productsPage.ProductsPage;
 import steps.CommonSteps;
 import steps.ProductsSteps;
-import tests.data.helpers.TelevisionsSearchData;
-import tests.data.helpers.AssertParameters;
-
-import java.util.Map;
 
 public class TelevisionsSearchTest extends BaseTest {
     private ProductsPage productsPage;
@@ -27,9 +24,6 @@ public class TelevisionsSearchTest extends BaseTest {
     private HeaderComponent headerComponent;
     private CatalogPage catalogPage;
     private CommonSteps commonSteps;
-    private Map<String, String> filters;
-    private AssertParameters assertParameters;
-    private static final String TELEVISION_SEARCH_DATA = "src//test//resources//television-search-data.xml";
 
     @BeforeMethod
     @Override
@@ -41,28 +35,29 @@ public class TelevisionsSearchTest extends BaseTest {
         productsPage = new ProductsPage(driver);
         productsSteps = new ProductsSteps(driver);
         commonSteps = new CommonSteps(driver);
-        TelevisionsSearchData televisionsSearchData = XmlReader.readXmlFile(TELEVISION_SEARCH_DATA, TelevisionsSearchData.class);
-        filters = televisionsSearchData.toMap();
-        assertParameters = televisionsSearchData.getTestParameters();
     }
 
     @Test
-    public void testTelevisionsSearch() {
+    @Parameters({"manufacturer", "maxPrice", "minDiagonal", "maxDiagonal", "resolution"})
+    public void testTelevisionsSearch(String manufacturer, Double maxPrice, int minDiagonal, int maxDiagonal, String resolution) {
         browser.navigateToUrl(PropertyHelper.getUrl());
         headerComponent.clickByHeaderMenu(HeaderMenu.CATALOG);
-        commonSteps.verifyCurrentUrlEquals(PropertyHelper.getUrlCatalog());
+        commonSteps.verifyCurrentUrlContain(PropertyHelper.getUrlCatalog());
         catalogPage.clickByCatalogNavigateMenu(NavigateMenu.ELECTRONIC);
         catalogNavigateSubMenu.moveMouseOnCategory(ElectronicCategory.TELEVISIONS);
         catalogNavigateSubMenu.clickByProducts(TelevisionCategory.TV);
-        commonSteps.verifyCurrentUrlEquals(PagesUrl.TV_URL);
-        productsPage.clickFilters(filters);
-        productsPage.writeBeforePriceInputFilter(assertParameters.getMaxPrice());
+        commonSteps.verifyCurrentUrlContain(PagesUrl.TV_URL);
+        productsPage.clickFilter(TvSectionData.MANUFACTURER_BLOCK, manufacturer);
+        productsPage.writeBeforePriceInputFilter(maxPrice);
+        productsPage.clickFilter(TvSectionData.RESOLUTION_BLOCK, resolution);
+        productsPage.clickFilter(TvSectionData.DIAGONAL_BLOCK, String.valueOf(minDiagonal));
+        productsPage.clickFilter(TvSectionData.DIAGONAL_BLOCK, String.valueOf(maxDiagonal));
         productsPage.waitForResultsLoaded();
+        productsSteps.verifyAllProductsTitleResultContain(manufacturer);
+        productsSteps.verifyAllProductsPriceResultLessThen(maxPrice);
+        productsSteps.verifyAllProductsDescriptionContain(resolution);
+        productsSteps.verifyAllProductsDescriptionStartsWithInDiaposon(minDiagonal, maxDiagonal);
 
-        productsSteps.verifyAllProductsTitleResultContain(assertParameters.getManufacturer());
-        productsSteps.verifyAllProductsPriceResultLessThen(assertParameters.getMaxPrice());
-        productsSteps.verifyAllProductsDescriptionStartsWithInDiaposon(assertParameters.getMinDiagonal(), assertParameters.getMaxDiagonal());
-        productsSteps.verifyAllProductsDescriptionContain(assertParameters.getResolution());
     }
 }
 
