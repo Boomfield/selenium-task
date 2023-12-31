@@ -7,7 +7,7 @@
         <parameter name="maxDiagonal" value="50"/>
         <parameter name="resolution" value="1920x1080"/>
         <classes>
-            <class name="tests.TelevisionsSearchTest"/>
+            <class name="onliner.pages.tests.TelevisionSearchTest"/>
         </classes>
     </test>
 </suite>
