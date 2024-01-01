@@ -9,7 +9,7 @@ import onliner.pages.catalogPage.components.helpers.TelevisionSubMenuDisplayer;
 public class CatalogueNavigateSubMenu {
     private static String navigationLinkLocator = "//div[@style='display: block;']//div[contains(text(),'%s')]";
     private static String productNavigationLinkLocator = "//div[contains(@class,'item_active')]//span[contains(@class,'dropdown-title') and normalize-space(text())='%s']";
-    private final ElementManager elementManager;
+    private ElementManager elementManager;
 
     public CatalogueNavigateSubMenu(WebDriver driver) {
         this.elementManager = new ElementManager(driver);

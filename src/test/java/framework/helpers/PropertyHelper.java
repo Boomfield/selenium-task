@@ -25,7 +25,7 @@ public class PropertyHelper {
         return Integer.parseInt(properties.getProperty("impWait"));
     }
 
-    public static int getExplicitlyWaitFiveSec() {
+    public static int getDefaultExplicitlyWait() {
         return Integer.parseInt(properties.getProperty("expWaitFiveSec"));
     }
 

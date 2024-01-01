@@ -16,7 +16,7 @@ public class ElementManager {
     private Waiter waiter;
     private Actions actions;
     public static int resultLoadingExpWait = PropertyHelper.getExplicitlyWaitOneSec();
-    public static int defaultExpWait = PropertyHelper.getExplicitlyWaitFiveSec();
+    public static int defaultExpWait = PropertyHelper.getDefaultExplicitlyWait();
 
     public ElementManager(WebDriver driver) {
         this.driver = driver;
@@ -29,17 +29,14 @@ public class ElementManager {
         return driver.findElement(element);
     }
 
-    private WebElement findClickableElement(By element, int sec) {
-        return waiter.waitElementIsClickable(element, sec);
-    }
-
     public void scrollIntoView(By element, int sec) {
         WebElement el = findElement(element, sec);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", el);
     }
 
     public void clickElement(By element, int sec) {
-        findClickableElement(element, sec).click();
+        WebElement el = waiter.waitElementIsClickable(element, sec);
+        el.click();
     }
 
     protected List<WebElement> findElements(By element) {
